@@ -3,6 +3,8 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.openhab.bundles</groupId>
 		<artifactId>binding</artifactId>
@@ -10,7 +12,25 @@
 		<relativePath />
 	</parent>
 
+	<groupId>org.openhab.binding</groupId>
+	<artifactId>org.openhab.binding.bacnet</artifactId>
+	<packaging>eclipse-plugin</packaging>
+
 	<name>openHAB BacNet Binding</name>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License, version 2</name>
+            <url>https://www.gnu.org/licenses/gpl-2.0.txt</url>
+            <comments>Due to bacnet4j dependency this library must be licensed under GNU GPL.</comments>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/openhab/org.openhab.binding.bacnet.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/openhab/org.openhab.binding.bacnet.git</developerConnection>
+        <url>https://github.com/openhab/org.openhab.binding.bacnet</url>
+    </scm>
 
 	<properties>
 		<bundle.symbolicName>org.openhab.binding.bacnet</bundle.symbolicName>
@@ -18,12 +38,6 @@
 		<deb.name>openhab-addon-binding-bacnet</deb.name>
 		<deb.description>${project.name}</deb.description>
 	</properties>
-
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.openhab.binding</groupId>
-	<artifactId>org.openhab.binding.bacnet</artifactId>
-	<packaging>eclipse-plugin</packaging>
-
 
 	<build>
 		<plugins>
