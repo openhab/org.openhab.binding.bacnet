@@ -8,8 +8,7 @@ Bundle-Activator: org.openhab.binding.bacnet.internal.BacNetActivator
 Bundle-ManifestVersion: 2
 Bundle-License: http://www.eclipse.org/legal/epl-v10.html
 Bundle-Description: This is the BacNet binding of the open Home Automation Bus (openHAB)
-Import-Package: org.apache.commons.lang,
- org.openhab.core.binding,
+Import-Package: org.openhab.core.binding,
  org.openhab.core.events,
  org.openhab.core.items,
  org.openhab.core.library.items,
