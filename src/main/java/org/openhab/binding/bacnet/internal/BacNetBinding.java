@@ -247,7 +247,7 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
 
     @Override
     public void deviceDiscovered(Device device) {
-        logger.info("Discovered device " + device);
+        logger.info("Discovered device '{}'", device);
         deviceMap.put(device.getInstanceNumber(), device);
     }
 
@@ -261,7 +261,7 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
 
         state = this.createState(config.itemType, value);
         eventPublisher.postUpdate(config.itemName, state);
-        logger.debug("Updating item {} to value {} throught property {}", config.itemName, value, property);
+        logger.debug("Updating item {} to value {} through property {}", config.itemName, value, property);
     }
 
 }
