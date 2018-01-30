@@ -25,4 +25,4 @@ Bundle-SymbolicName: org.openhab.binding.bacnet
 Bundle-DocURL: http://www.openhab.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Service-Component: OSGI-INF/binding.xml, OSGI-INF/genericbindingprovider.xml
-Bundle-ClassPath: lib/api-1.0.0.jar, lib/ip-1.0.0.jar, .
+Bundle-ClassPath: lib/api-1.0.2.jar, lib/ip-1.0.2.jar, .
