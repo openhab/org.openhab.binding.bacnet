@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +13,7 @@
 	<groupId>org.openhab.binding</groupId>
 	<artifactId>org.openhab.binding.bacnet</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<version>1.11.0-SNAPSHOT</version>
+	<version>1.11.1-SNAPSHOT</version>
 
 	<name>openHAB BacNet Binding</name>
 
@@ -31,7 +29,8 @@
         <connection>scm:git:git://github.com/openhab/org.openhab.binding.bacnet.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/openhab/org.openhab.binding.bacnet.git</developerConnection>
         <url>https://github.com/openhab/org.openhab.binding.bacnet</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
 	<properties>
 		<bundle.symbolicName>org.openhab.binding.bacnet</bundle.symbolicName>
