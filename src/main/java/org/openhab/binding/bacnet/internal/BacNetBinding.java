@@ -51,7 +51,7 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
 
     private final AtomicBoolean initialized = new AtomicBoolean(false);
 
-    private Map<Integer, Device> deviceMap = Collections.synchronizedMap(new HashMap<Integer, Device>());
+    private final Map<Integer, Device> deviceMap = Collections.synchronizedMap(new HashMap<Integer, Device>());
     private IpNetworkBuilder networkConfigurationBuilder;
     private BacNetClient client;
 
@@ -152,17 +152,17 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
 
         this.networkConfigurationBuilder = new IpNetworkBuilder();
         if (properties.get("localBindAddress") != null) {
-            networkConfigurationBuilder.localBindAddress((String) properties.get("localBindAddress"));
+            networkConfigurationBuilder.withLocalBindAddress((String) properties.get("localBindAddress"));
         }
         if (properties.get("broadcast") != null) {
-            networkConfigurationBuilder.broadcastIp((String) properties.get("broadcast"));
+            networkConfigurationBuilder.withBroadcast((String) properties.get("broadcast"), 24);
         }
         if (properties.get("port") != null) {
-            networkConfigurationBuilder.port(Integer.parseInt((String) properties.get("port")));
+            networkConfigurationBuilder.withPort(Integer.parseInt((String) properties.get("port")));
         }
         if (properties.get("localNetworkNumber") != null) {
             networkConfigurationBuilder
-                    .localNetworkNumber(Integer.parseInt((String) properties.get("localNetworkNumber")));
+                    .withLocalNetworkNumber(Integer.parseInt((String) properties.get("localNetworkNumber")));
         }
 
         if (properties.get("localDeviceId") != null) {

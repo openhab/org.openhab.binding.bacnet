@@ -24,5 +24,5 @@ Import-Package: org.openhab.core.binding,
 Bundle-SymbolicName: org.openhab.binding.bacnet
 Bundle-DocURL: http://www.openhab.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Service-Component: OSGI-INF/binding.xml, OSGI-INF/genericbindingprovider.xml
-Bundle-ClassPath: lib/api-1.0.3.jar, lib/ip-1.0.3.jar, .
+Service-Component: OSGI-INF/*.xml
+Bundle-ClassPath: lib/api-1.1.0.jar, lib/ip-1.1.0.jar, lib/commons-lang3-3.8.1.jar, .

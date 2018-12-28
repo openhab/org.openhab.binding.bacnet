@@ -4,7 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry exported="true" kind="lib" path="lib/api-1.0.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/ip-1.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang3-3.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/api-1.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ip-1.1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
