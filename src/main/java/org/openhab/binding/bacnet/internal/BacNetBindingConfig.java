@@ -20,6 +20,7 @@
 package org.openhab.binding.bacnet.internal;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.code_house.bacnet4j.wrapper.api.Type;
 import org.openhab.core.binding.BindingConfig;
@@ -27,40 +28,21 @@ import org.openhab.core.items.Item;
 import org.openhab.model.item.binding.BindingConfigParseException;
 
 public class BacNetBindingConfig implements BindingConfig {
-    public final Class<? extends Item> itemType;
     public final String itemName;
-    public final Integer deviceId;
+    public final Class<? extends Item> itemType;
+    public final DevicePointer devicePointer;
+    public final Optional<String> deviceAddress;
     public final Type type;
     public final Integer id;
     public final long refreshInterval;
 
-    private static final Pattern CONFIG_PATTERN = Pattern.compile("^([A-z]+=[^,]+(,|$))+");
-
-    static BacNetBindingConfig parseBindingConfig(String itemName, Class<? extends Item> itemType, String configString)
-            throws BindingConfigParseException {
-        Matcher matcher = CONFIG_PATTERN.matcher(configString);
-        if (!matcher.matches()) {
-            throw new BindingConfigParseException(
-                    "Invalid BacNet config: '" + configString + "'. Expected key1=value1,key2=value2");
-        }
-
-        Map<String, String> values = new HashMap<String, String>();
-        for (String item : configString.split(",")) {
-            String[] parts = item.split("=");
-            if (parts.length != 2) {
-                throw new BindingConfigParseException("Expected key=value in BacNet config");
-            }
-            values.put(parts[0].trim(), parts[1].trim());
-        }
-        return new BacNetBindingConfig(itemName, itemType, values);
-    }
-
-    public BacNetBindingConfig(String itemName, Class<? extends Item> itemType, Map<String, String> values)
+    BacNetBindingConfig(String itemName, Class<? extends Item> itemType, Map<String, String> values)
             throws BindingConfigParseException {
         this.itemName = itemName;
         this.itemType = itemType;
 
         String deviceId = values.get("device");
+        String deviceAddress = values.get("address");
         String type = values.get("type");
         String id = values.get("id");
 
@@ -68,16 +50,21 @@ public class BacNetBindingConfig implements BindingConfig {
             throw new BindingConfigParseException("Invalid BacNet config. Required properties are device, type, id");
         }
 
-        this.deviceId = Integer.parseInt(deviceId);
+        this.deviceAddress = Optional.ofNullable(deviceAddress);
         this.type = parseObjectTypeName(type);
         this.id = Integer.parseInt(id);
+
+        int networkNumber = 0;
+        if (values.containsKey("networkNumber")) {
+            networkNumber = Integer.parseInt(values.get("networkNumber"));
+        }
+        this.devicePointer = new DevicePointer(networkNumber, Integer.parseInt(deviceId));
 
         if (values.containsKey("refreshInterval")) {
             this.refreshInterval = Long.parseLong(values.get("refreshInterval"));
         } else {
             this.refreshInterval = 0;
         }
-
     }
 
     private Type parseObjectTypeName(String name) {
@@ -105,14 +92,16 @@ public class BacNetBindingConfig implements BindingConfig {
 
     @Override
     public int hashCode() {
-        Object[] objects = { itemName, deviceId, type.name(), id };
+        Object[] objects = { itemName, devicePointer, deviceAddress, type.name(), id };
         return hashCode(objects);
     }
 
     public int hashCode(Object[] composite) {
         int value = 0;
         for (Object object : composite) {
-            value += object.hashCode();
+            if (object != null) {
+                value += object.hashCode();
+            }
         }
         return 97 * value;
     }

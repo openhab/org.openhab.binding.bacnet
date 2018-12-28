@@ -28,7 +28,7 @@ import org.openhab.core.binding.BindingProvider;
 public interface BacNetBindingProvider extends BindingProvider {
     public BacNetBindingConfig configForItemName(String itemName);
 
-    public BacNetBindingConfig configForProperty(int deviceId, Type type, int id);
+    public BacNetBindingConfig configForProperty(int networkNumber, int deviceId, Type type, int id);
 
     public Collection<BacNetBindingConfig> allConfigs();
 

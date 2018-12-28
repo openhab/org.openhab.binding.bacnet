@@ -49,7 +49,7 @@ public class BacNetGenericBindingProvider extends AbstractGenericBindingProvider
         super.processBindingConfiguration(context, item, bindingConfig);
 
         if (bindingConfig != null) {
-            BacNetBindingConfig config = BacNetBindingConfig.parseBindingConfig(item.getName(), item.getClass(),
+            BacNetBindingConfig config = BacNetBindingConfigParser.parseBindingConfig(item.getName(), item.getClass(),
                     bindingConfig);
             addBindingConfig(item, config);
         } else {
@@ -69,10 +69,11 @@ public class BacNetGenericBindingProvider extends AbstractGenericBindingProvider
     }
 
     @Override
-    public BacNetBindingConfig configForProperty(int deviceId, Type type, int id) {
+    public BacNetBindingConfig configForProperty(int networkNumber, int deviceId, Type type, int id) {
         for (BindingConfig bindingConfig : bindingConfigs.values()) {
             BacNetBindingConfig config = (BacNetBindingConfig) bindingConfig;
-            if (config.deviceId == deviceId && config.type == type && config.id == id) {
+            if (config.devicePointer.equals(new DevicePointer(networkNumber, deviceId)) && config.type == type
+                    && config.id == id) {
                 return config;
             }
         }

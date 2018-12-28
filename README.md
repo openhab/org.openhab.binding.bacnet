@@ -21,6 +21,8 @@ The following keys are available:
 * `device` is the instance ID (integer) of the device as configured on your local network (it is *not* the IP address of the device)
 * `type` is the object type. Available types are  `analogInput`, `analogOutput`, `analogValue`, `binaryInput`, `binaryOutput`, `binaryValue`, `multiStateInput`, `multiStateOutput`, `multiStateValue`
 * `id`is the instance ID (integer) of the object you want to tie to this openHAB item
+* `address` (optional) if you know device ip - must be in `x.y.z.w:port` format
+* `networkNumber` (optional) network number if different than default
 * `refreshInterval` (optional) periods between property read requests
 
 All these properties are coming from bacnet standard. If you don't know yet device id or available properties please contact your device manufacturer and ask for appropriate documentation.

@@ -35,6 +35,7 @@ import org.code_house.bacnet4j.wrapper.api.DeviceDiscoveryListener;
 import org.code_house.bacnet4j.wrapper.api.JavaToBacNetConverter;
 import org.code_house.bacnet4j.wrapper.api.Property;
 import org.code_house.bacnet4j.wrapper.ip.BacNetIpClient;
+import org.code_house.bacnet4j.wrapper.ip.IpDevice;
 import org.openhab.binding.bacnet.BacNetBindingProvider;
 import org.openhab.binding.bacnet.internal.queue.ReadPropertyTask;
 import org.openhab.binding.bacnet.internal.queue.WritePropertyTask;
@@ -51,7 +52,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.serotonin.bacnet4j.npdu.ip.IpNetworkBuilder;
+import com.serotonin.bacnet4j.npdu.ip.IpNetworkUtils;
 import com.serotonin.bacnet4j.type.Encodable;
+import com.serotonin.bacnet4j.type.constructed.Address;
+import com.serotonin.bacnet4j.type.primitive.Unsigned16;
 
 public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
         implements ManagedService, DeviceDiscoveryListener, PropertyValueReceiver<Encodable> {
@@ -70,7 +74,8 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
 
     private final AtomicBoolean initialized = new AtomicBoolean(false);
 
-    private final Map<Integer, Device> deviceMap = Collections.synchronizedMap(new HashMap<Integer, Device>());
+    private final Map<DevicePointer, Device> deviceMap = Collections
+            .synchronizedMap(new HashMap<DevicePointer, Device>());
     private IpNetworkBuilder networkConfigurationBuilder;
     private BacNetClient client;
 
@@ -233,12 +238,24 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
     }
 
     private Property devicePropertyForConfig(BacNetBindingConfig config) {
-        Device device = deviceMap.get(config.deviceId);
+        DevicePointer pointer = config.devicePointer;
+
+        if (!deviceMap.containsKey(config.devicePointer)) {
+            config.deviceAddress.map(IpNetworkUtils::toOctetString)
+                    .map(address -> new Address(new Unsigned16(pointer.networkNumber), address))
+                    .map(address -> new IpDevice(pointer.deviceId, address))
+                    .ifPresent(device -> deviceMap.put(pointer, device));
+
+        }
+
+        Device device = deviceMap.get(pointer);
         if (device != null) {
             return new Property(device, config.id, config.type);
         } else {
-            logger.warn("Could not find property {}.{}.{} for item {} cause device was not discovered", config.deviceId,
-                    config.type.name(), config.id, config.itemName);
+            logger.warn(
+                    "Could not find property {}.{}.{} for item {} cause device was not discovered. Consider manual"
+                            + " configuration with 'address' option to avoid occurance of this warning in future",
+                    config.devicePointer, config.type.name(), config.id, config.itemName);
         }
         return null;
     }
@@ -255,8 +272,8 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
 
     private BacNetBindingConfig configForProperty(Property property) {
         for (BacNetBindingProvider provider : providers) {
-            BacNetBindingConfig config = provider.configForProperty(property.getDevice().getInstanceNumber(),
-                    property.getType(), property.getId());
+            BacNetBindingConfig config = provider.configForProperty(property.getDevice().getNetworkNumber(),
+                    property.getDevice().getInstanceNumber(), property.getType(), property.getId());
             if (config != null) {
                 return config;
             }
@@ -267,7 +284,8 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
     @Override
     public void deviceDiscovered(Device device) {
         logger.info("Discovered device '{}'", device);
-        deviceMap.put(device.getInstanceNumber(), device);
+        deviceMap.put(new DevicePointer(device.getBacNet4jAddress().getNetworkNumber().intValue(),
+                device.getInstanceNumber()), device);
     }
 
     @Override
