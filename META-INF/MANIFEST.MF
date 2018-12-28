@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Private-Package: org.openhab.binding.bacnet.internal
 Ignore-Package: org.openhab.binding.bacnet.internal
 Bundle-Name: openHAB BacNet Binding
-Bundle-Vendor: Matthias Schwab
+Bundle-Vendor: openHAB
 Bundle-Version: 0.13.0.qualifier
 Bundle-Activator: org.openhab.binding.bacnet.internal.BacNetActivator
 Bundle-ManifestVersion: 2
