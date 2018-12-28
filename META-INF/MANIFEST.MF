@@ -6,7 +6,7 @@ Bundle-Vendor: openHAB
 Bundle-Version: 0.13.0.qualifier
 Bundle-Activator: org.openhab.binding.bacnet.internal.BacNetActivator
 Bundle-ManifestVersion: 2
-Bundle-License: http://www.eclipse.org/legal/epl-v10.html
+Bundle-License: https://www.gnu.org/licenses/gpl-3.0.txt
 Bundle-Description: This is the BacNet binding of the open Home Automation Bus (openHAB)
 Import-Package: org.openhab.core.binding,
  org.openhab.core.events,
