@@ -22,6 +22,8 @@ package org.openhab.binding.bacnet.internal.queue;
 import org.code_house.bacnet4j.wrapper.api.BacNetClient;
 import org.code_house.bacnet4j.wrapper.api.BacNetClientException;
 import org.code_house.bacnet4j.wrapper.api.JavaToBacNetConverter;
+import org.code_house.bacnet4j.wrapper.api.Priorities;
+import org.code_house.bacnet4j.wrapper.api.Priority;
 import org.code_house.bacnet4j.wrapper.api.Property;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,19 +36,30 @@ public class WritePropertyTask<T> implements Runnable {
     private final Property property;
     private final T value;
     private final JavaToBacNetConverter<T> converter;
+    private final Priority priority;
 
     public WritePropertyTask(BacNetClient client, Property property, T value, JavaToBacNetConverter<T> converter) {
+        this(client, property, value, converter, 0);
+    }
+
+    public WritePropertyTask(BacNetClient client, Property property, T value, JavaToBacNetConverter<T> converter,
+            int priority) {
+        this(client, property, value, converter, Priorities.get(priority).orElse(null));
+    }
+
+    public WritePropertyTask(BacNetClient client, Property property, T value, JavaToBacNetConverter<T> converter,
+            Priority priority) {
         this.client = client;
         this.property = property;
         this.value = value;
         this.converter = converter;
-
+        this.priority = priority;
     }
 
     @Override
     public void run() {
         try {
-            client.setPropertyValue(property, value, converter);
+            client.setPropertyValue(property, value, converter, priority);
             logger.trace("Property {} was properly set to value {}", property, value);
         } catch (BacNetClientException e) {
             logger.warn("Could not set value {} for property {}", value, property, e);

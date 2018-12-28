@@ -35,6 +35,7 @@ public class BacNetBindingConfig implements BindingConfig {
     public final Type type;
     public final Integer id;
     public final long refreshInterval;
+    public final short writePriority;
 
     BacNetBindingConfig(String itemName, Class<? extends Item> itemType, Map<String, String> values)
             throws BindingConfigParseException {
@@ -64,6 +65,12 @@ public class BacNetBindingConfig implements BindingConfig {
             this.refreshInterval = Long.parseLong(values.get("refreshInterval"));
         } else {
             this.refreshInterval = 0;
+        }
+
+        if (values.containsKey("writePriority")) {
+            this.writePriority = Short.parseShort(values.get("writePriority"));
+        } else {
+            this.writePriority = 0;
         }
     }
 

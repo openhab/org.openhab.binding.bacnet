@@ -127,7 +127,7 @@ public class BacNetBinding extends AbstractActiveBinding<BacNetBindingProvider>
                                 return BacNetValueConverter.openHabTypeToBacNetValue(config.type.getBacNetType(),
                                         newValue);
                             }
-                        }));
+                        }, config.writePriority));
                 logger.info("Submited task to write {} value {} for item {}", property, newValue, itemName);
             }
         }

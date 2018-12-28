@@ -24,6 +24,7 @@ The following keys are available:
 * `address` (optional) if you know device ip - must be in `x.y.z.w:port` format
 * `networkNumber` (optional) network number if different than default
 * `refreshInterval` (optional) periods between property read requests
+* `writePriority` (optional) write priority of values set by OpenHab - values 1..16 are supported as specified in standard. Defaults to 0, no priority set on write operation.
 
 All these properties are coming from bacnet standard. If you don't know yet device id or available properties please contact your device manufacturer and ask for appropriate documentation.
 
