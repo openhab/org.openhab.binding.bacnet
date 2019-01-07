@@ -32,6 +32,7 @@ import org.openhab.core.library.types.PercentType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.types.State;
 import org.openhab.core.types.Type;
+import org.openhab.core.types.UnDefType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,7 @@ import com.serotonin.bacnet4j.type.enumerated.BinaryPV;
 import com.serotonin.bacnet4j.type.enumerated.ObjectType;
 import com.serotonin.bacnet4j.type.primitive.Boolean;
 import com.serotonin.bacnet4j.type.primitive.Double;
+import com.serotonin.bacnet4j.type.primitive.Null;
 import com.serotonin.bacnet4j.type.primitive.Real;
 import com.serotonin.bacnet4j.type.primitive.SignedInteger;
 import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
@@ -50,7 +52,9 @@ public class BacNetValueConverter {
 
     public static State bacNetValueToOpenHabState(Class<? extends Item> type, Encodable value) {
         try {
-            if (type.isAssignableFrom(ContactItem.class)) {
+            if (value instanceof Null) {
+                return UnDefType.NULL;
+            } else if (type.isAssignableFrom(ContactItem.class)) {
                 return (decodeBoolean(value) ? OpenClosedType.CLOSED : OpenClosedType.OPEN);
             } else if (type.isAssignableFrom(SwitchItem.class) && value instanceof BinaryPV) {
                 return (decodeBoolean(value) ? OnOffType.ON : OnOffType.OFF);
@@ -107,6 +111,10 @@ public class BacNetValueConverter {
     }
 
     public static Encodable openHabTypeToBacNetValue(ObjectType type, Type value) {
+        if (UnDefType.NULL == value) {
+            // In case of NULL value sent from openhab end we propagate it to bacnet.
+            return Null.instance;
+        }
         if (type.equals(ObjectType.binaryValue) || type.equals(ObjectType.binaryOutput)
                 || type.equals(ObjectType.binaryInput)) {
             return encodeBoolean(value);
