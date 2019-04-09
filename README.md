@@ -1,4 +1,6 @@
 # BACNet Binding for openHAB
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fopenhab%2Forg.openhab.binding.bacnet.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fopenhab%2Forg.openhab.binding.bacnet?ref=badge_shield)
+
 
 This binding provides basic access to BACNet devices for openHAB. This binding is based on [bacnet4j-wrapper](https://github.com/Code-House/bacnet4j-wrapper) and limited to it's basic abilities such reading and writing properties. Keep in mind that this is work in progress and even basic features can be broken.
 
@@ -46,3 +48,6 @@ The binding uses BACNet/IP and sends out a broadcast discovery command on startu
 ### Development
 
 The item types "dimmer", "number" and "switch" have been tested. As said earlier this binding is still in it's early development stage and might need many tweaks to work reliably in all cases! Don't hesitate to report issues in this github project or ask on [openhab community forum](http://community.openhab.org). See also our [contributing rules](CONTRIBUTING.md)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fopenhab%2Forg.openhab.binding.bacnet.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fopenhab%2Forg.openhab.binding.bacnet?ref=badge_large)
